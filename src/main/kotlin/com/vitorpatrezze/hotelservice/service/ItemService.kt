@@ -5,7 +5,10 @@ import com.vitorpatrezze.hotelservice.repository.ItemRepository
 import org.springframework.stereotype.Service
 
 @Service
-class ItemService(private val repository: ItemRepository) {
+class ItemService(
+    private val repository: ItemRepository,
+    private val validationService: ValidationService
+) {
     fun allItems(): List<Item> {
         return repository.findAll()
     }
@@ -15,6 +18,7 @@ class ItemService(private val repository: ItemRepository) {
     }
 
     fun saveItem(item: Item): Long {
+        validationService.validate(item)
         return repository.save(item).id ?: 0
     }
 }

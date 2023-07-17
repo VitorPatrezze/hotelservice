@@ -14,6 +14,7 @@ data class Location(
     val city: String,
     val state: String,
     val country: String,
+    //TODO - Zipcode must be INT
     val zipCode: String,
     val address: String
 )
