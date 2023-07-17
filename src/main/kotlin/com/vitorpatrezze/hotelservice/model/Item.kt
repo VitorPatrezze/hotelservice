@@ -15,7 +15,8 @@ data class Item(
     val name: String,
     val rating: Double,
     val category: String,
-    //val location: Location,
+    @OneToOne(cascade=[CascadeType.PERSIST])
+    val location: Location,
     val imagePath: String,
     val reputation: Int,
     val reputationBadge: String,
