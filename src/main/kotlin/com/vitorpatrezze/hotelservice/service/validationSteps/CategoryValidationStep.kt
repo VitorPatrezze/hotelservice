@@ -1,6 +1,6 @@
 package com.vitorpatrezze.hotelservice.service.validationSteps
 
-import com.vitorpatrezze.hotelservice.Exceptions.InvalidCategoryException
+import com.vitorpatrezze.hotelservice.exceptions.InvalidCategoryException
 import com.vitorpatrezze.hotelservice.model.Item
 
 class CategoryValidationStep(override val nextStep: ValidationStep?) : ValidationStep {

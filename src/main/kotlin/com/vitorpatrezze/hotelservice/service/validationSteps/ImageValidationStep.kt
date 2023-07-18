@@ -1,6 +1,6 @@
 package com.vitorpatrezze.hotelservice.service.validationSteps
 
-import com.vitorpatrezze.hotelservice.Exceptions.InvalidImagePathException
+import com.vitorpatrezze.hotelservice.exceptions.InvalidImagePathException
 import com.vitorpatrezze.hotelservice.model.Item
 import java.net.MalformedURLException
 import java.net.URL

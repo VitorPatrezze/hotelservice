@@ -1,6 +1,6 @@
 package com.vitorpatrezze.hotelservice.service.validationSteps
 
-import com.vitorpatrezze.hotelservice.Exceptions.InvalidLocationException
+import com.vitorpatrezze.hotelservice.exceptions.InvalidLocationException
 import com.vitorpatrezze.hotelservice.model.Item
 
 class LocationValidationStep(override val nextStep: ValidationStep?) : ValidationStep {

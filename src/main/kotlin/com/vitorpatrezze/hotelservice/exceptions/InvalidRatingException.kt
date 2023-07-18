@@ -1,3 +1,3 @@
-package com.vitorpatrezze.hotelservice.Exceptions
+package com.vitorpatrezze.hotelservice.exceptions
 
 class InvalidRatingException(message: String): Exception(message)

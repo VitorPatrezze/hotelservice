@@ -2,7 +2,10 @@ package com.vitorpatrezze.hotelservice.controller
 
 import com.vitorpatrezze.hotelservice.model.Item
 import com.vitorpatrezze.hotelservice.service.ItemService
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.util.UriComponentsBuilder
 
 @RestController
 @RequestMapping("/items")
@@ -19,17 +22,21 @@ class ItemsController(private val service: ItemService) {
     }
 
     @PostMapping
-    fun saveItem(@RequestBody item: Item): Long {
-        return service.saveItem(item)
+    fun saveItem(@RequestBody item: Item, uriBuilder: UriComponentsBuilder): ResponseEntity<Item> {
+        val createdItem = service.saveItem(item)
+        val uri = uriBuilder.path("/items/${createdItem.id}").build().toUri()
+        return ResponseEntity.created(uri).body(createdItem)
     }
 
     @PutMapping
-    fun updateById(@RequestBody item: Item): Item {
-        return service.updateItem(item, item.id ?: throw Exception("Missing required item id for updating info"))
+    fun updateById(@RequestBody item: Item, uriBuilder: UriComponentsBuilder): ResponseEntity<Item> {
+        val updatedItem = service.updateItem(item, item.id ?: throw Exception("Missing required item id"))
+        return ResponseEntity.ok(updatedItem)
     }
 
     @DeleteMapping("/{id}")
-    fun deleteItemById(@PathVariable id: Long): String {
-        return service.deleteItem(id)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deleteItemById(@PathVariable id: Long) {
+        service.deleteItem(id)
     }
 }

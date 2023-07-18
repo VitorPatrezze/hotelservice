@@ -1,6 +1,6 @@
 package com.vitorpatrezze.hotelservice.service.validationSteps
 
-import com.vitorpatrezze.hotelservice.Exceptions.InvalidNameException
+import com.vitorpatrezze.hotelservice.exceptions.InvalidNameException
 import com.vitorpatrezze.hotelservice.model.Item
 
 class NameValidationStep(override val nextStep: ValidationStep?) : ValidationStep {

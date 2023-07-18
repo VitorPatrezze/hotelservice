@@ -15,12 +15,16 @@ class ItemService(
     }
 
     fun getItemById(id: Long): Item {
-        return repository.getReferenceById(id)
+        return try {
+            repository.getReferenceById(id)
+        } catch (ex: Exception) {
+            throw EntityNotFoundException("Could not find item with id $id")
+        }
     }
 
-    fun saveItem(item: Item): Long {
+    fun saveItem(item: Item): Item {
         validationService.validate(item)
-        return repository.save(item).id ?: 0
+        return repository.save(item)
     }
 
     fun updateItem(updatedItem: Item, id: Long): Item {
