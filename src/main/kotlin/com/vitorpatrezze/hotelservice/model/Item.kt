@@ -31,4 +31,19 @@ data class Item(
             else -> "red"
         }
     }
+
+    fun updateId(id: Long): Item {
+        return Item(
+            id = id,
+            name = this.name,
+            rating = this.rating,
+            category = this.category,
+            location = this.location,
+            imagePath = this.imagePath,
+            reputation = this.reputation,
+            reputationBadge = this.reputationBadge,
+            price = this.price,
+            availability = this.availability
+        )
+    }
 }
