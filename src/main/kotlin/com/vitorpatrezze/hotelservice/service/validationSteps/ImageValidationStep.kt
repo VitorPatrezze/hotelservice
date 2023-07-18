@@ -11,7 +11,7 @@ class ImageValidationStep(override val nextStep: ValidationStep?) : ValidationSt
             URL(item.imagePath)
             nextStep(item)
         } catch (e: MalformedURLException) {
-            throw InvalidImagePathException("The image URL provided is not valid")
+            throw InvalidImagePathException()
         }
     }
 }

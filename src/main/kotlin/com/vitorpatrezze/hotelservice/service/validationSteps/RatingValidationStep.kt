@@ -6,7 +6,7 @@ import com.vitorpatrezze.hotelservice.model.Item
 class RatingValidationStep(override val nextStep: ValidationStep?) : ValidationStep {
     override fun validate(item: Item): Boolean {
         return if (item.rating > 5 || item.rating < 0)
-            throw InvalidRatingException("Rating must be an integer between 0 and 5")
+            throw InvalidRatingException()
         else this.nextStep(item)
     }
 }

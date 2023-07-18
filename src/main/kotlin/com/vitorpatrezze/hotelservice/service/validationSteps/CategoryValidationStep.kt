@@ -7,7 +7,7 @@ class CategoryValidationStep(override val nextStep: ValidationStep?) : Validatio
     override fun validate(item: Item): Boolean {
         val validCategories = listOf("hotel", "alternative", "hostel", "lodge", "resort", "guest-house")
         return if (item.category.lowercase() !in validCategories)
-            throw InvalidCategoryException("The category specified is not valid.")
+            throw InvalidCategoryException()
         else this.nextStep(item)
     }
 }

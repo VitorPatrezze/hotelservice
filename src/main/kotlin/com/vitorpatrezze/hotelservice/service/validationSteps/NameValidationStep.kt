@@ -8,7 +8,7 @@ class NameValidationStep(override val nextStep: ValidationStep?) : ValidationSte
         val prohibitedWords = listOf("free", "offer", "book", "website")
 
         if (item.name.length < 10)
-            throw InvalidNameException("The name provided is too short (must have at least 10 characters)")
+            throw InvalidNameException("The name provided is too short (must have at least 10 characters).")
 
         else if (containsProhibitedWords(item.name, prohibitedWords))
             throw InvalidNameException("The name provided contains prohibited words.")

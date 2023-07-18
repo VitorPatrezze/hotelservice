@@ -1,6 +1,6 @@
 package com.vitorpatrezze.hotelservice.model
 
-import com.fasterxml.jackson.annotation.JsonIgnore
+import com.vitorpatrezze.hotelservice.exceptions.*
 import jakarta.persistence.*
 import lombok.Data
 import java.math.BigDecimal
@@ -21,7 +21,7 @@ data class Item(
     val reputation: Int,
     var reputationBadge: String?,
     val price: BigDecimal,
-    val availability: Int
+    var availability: Int
 ) {
     @PrePersist
     fun calculateReputationBadge() {
@@ -45,5 +45,10 @@ data class Item(
             price = this.price,
             availability = this.availability
         )
+    }
+
+    fun updateAvailability(amount: Int) {
+        if (amount > this.availability) throw AccommodationNotAvailableException()
+        this.availability -= amount
     }
 }

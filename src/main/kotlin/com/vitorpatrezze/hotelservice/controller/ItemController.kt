@@ -1,6 +1,7 @@
 package com.vitorpatrezze.hotelservice.controller
 
 import com.vitorpatrezze.hotelservice.model.Item
+import com.vitorpatrezze.hotelservice.model.Receipt
 import com.vitorpatrezze.hotelservice.service.ItemService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -38,5 +39,11 @@ class ItemsController(private val service: ItemService) {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteItemById(@PathVariable id: Long) {
         service.deleteItem(id)
+    }
+
+    @PostMapping("/{id}/book/{amount}")
+    fun bookAccomodation(@PathVariable id: Long, @PathVariable amount: Int, uriBuilder: UriComponentsBuilder): ResponseEntity<Receipt> {
+        val receipt = service.book(amount, id)
+        return ResponseEntity.ok(receipt)
     }
 }

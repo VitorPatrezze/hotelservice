@@ -1,6 +1,8 @@
 package com.vitorpatrezze.hotelservice.service
 
+import com.vitorpatrezze.hotelservice.exceptions.AccommodationNotAvailableException
 import com.vitorpatrezze.hotelservice.model.Item
+import com.vitorpatrezze.hotelservice.model.Receipt
 import com.vitorpatrezze.hotelservice.repository.ItemRepository
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
@@ -28,7 +30,7 @@ class ItemService(
     }
 
     fun updateItem(updatedItem: Item, id: Long): Item {
-        val existingItem = getItemById(id)
+        getItemById(id) // checks if item exists
         validationService.validate(updatedItem)
         return repository.save(updatedItem.updateId(id))
     }
@@ -37,5 +39,15 @@ class ItemService(
         val item = getItemById(id)
         repository.delete(item)
         return "Sucessfully deleted item with id=${item.id}"
+    }
+
+    fun book(amount: Int, id: Long): Receipt {
+        if (amount < 0) throw Exception("Invalid booking amount")
+        val item = getItemById(id)
+        item.updateAvailability(amount)
+        updateItem(item, id)
+        return Receipt(
+            id, item.name, amount, item.location
+        )
     }
 }
