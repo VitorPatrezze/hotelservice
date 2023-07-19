@@ -1,6 +1,5 @@
 package com.vitorpatrezze.hotelservice.service
 
-import com.vitorpatrezze.hotelservice.exceptions.AccommodationNotAvailableException
 import com.vitorpatrezze.hotelservice.model.Item
 import com.vitorpatrezze.hotelservice.model.Receipt
 import com.vitorpatrezze.hotelservice.repository.ItemRepository
@@ -12,8 +11,9 @@ class ItemService(
     private val repository: ItemRepository,
     private val validationService: ValidationService
 ) {
-    fun allItems(): List<Item> {
-        return repository.findAll()
+    fun getItems(cityFilter: String?): List<Item> {
+        return if (cityFilter == null) repository.findAll()
+            else repository.findByLocationCity(cityFilter)
     }
 
     fun getItemById(id: Long): Item {

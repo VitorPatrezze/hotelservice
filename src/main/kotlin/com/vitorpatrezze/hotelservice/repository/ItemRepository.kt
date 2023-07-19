@@ -6,4 +6,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource
 
 @RepositoryRestResource
 interface ItemRepository : JpaRepository<Item, Long> {
+    fun findByLocationCity(city: String): List<Item>
 }
