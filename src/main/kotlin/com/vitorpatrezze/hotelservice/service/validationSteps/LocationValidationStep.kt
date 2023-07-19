@@ -5,8 +5,13 @@ import com.vitorpatrezze.hotelservice.model.Item
 
 class LocationValidationStep(override val nextStep: ValidationStep?) : ValidationStep {
     override fun validate(item: Item): Boolean {
+        try {
+            item.location.zipCode.toInt()
+        } catch (ex: Exception) {
+            throw InvalidLocationException("Zipcode must be an integer.")
+        }
         return if (item.location.zipCode.length != 5)
-            throw InvalidLocationException()
+            throw InvalidLocationException("The zipcode provided for the location is bigger than 5 digits.")
         else this.nextStep(item)
     }
 }
