@@ -31,6 +31,7 @@ class ItemsController(private val service: ItemService) {
 
     @PutMapping
     fun updateById(@RequestBody item: Item, uriBuilder: UriComponentsBuilder): ResponseEntity<Item> {
+        //TODO - location not being saved properly when item is updated
         val updatedItem = service.updateItem(item, item.id ?: throw Exception("Missing required item id"))
         return ResponseEntity.ok(updatedItem)
     }

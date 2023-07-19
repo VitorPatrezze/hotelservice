@@ -3,6 +3,7 @@ package com.vitorpatrezze.hotelservice.model
 import com.vitorpatrezze.hotelservice.exceptions.*
 import jakarta.persistence.*
 import lombok.Data
+import org.springframework.data.rest.core.annotation.RestResource
 import java.math.BigDecimal
 
 @Data
@@ -15,7 +16,8 @@ data class Item(
     val name: String,
     val rating: Int,
     val category: String,
-    @OneToOne(cascade=[CascadeType.PERSIST])
+    @OneToOne(cascade = [CascadeType.ALL])
+    @JoinColumn(name="location_id")
     val location: Location,
     val imagePath: String,
     val reputation: Int,
