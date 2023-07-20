@@ -1,0 +1,349 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+paths:
+  /items:
+    get:
+      tags:
+        - items-controller
+      summary: Returns all items
+      description: Returns all items existent in the database
+      operationId: getItems
+      parameters:
+        - name: city
+          in: query
+          description: city where item is located
+          required: false
+          schema:
+            type: string
+      responses:
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorView'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorView'
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+    put:
+      tags:
+        - items-controller
+      summary: Updates an item
+      description: Updates an item based on the id passed in the request body and validates the data passed.
+      operationId: updateById
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemRequestBody'
+        required: true
+      responses:
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorView'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorView'
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+    post:
+      tags:
+        - items-controller
+      summary: Saves a new item
+      description: Saves a new item in the server, also validating the data and calulating any other fields
+      operationId: saveItem
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+        required: true
+      responses:
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorView'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorView'
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+  /items/{id}:
+    get:
+      tags:
+        - items-controller
+      summary: Get item by Id
+      description: Gets an item by the Id provided as path param.
+      operationId: getItemById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorView'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorView'
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Item'
+    delete:
+      tags:
+        - items-controller
+      summary: Deletes an item from the database
+      description: Deletes and item based on the ID passed as path param.
+      operationId: deleteItemById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorView'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorView'
+        "204":
+          description: No Content
+
+  /items/{id}/book/{amount}:
+    post:
+      tags:
+        - items-controller
+      summary: Books an accommodation
+      description: Books an accommodation at the desired item, reducing it's availability.
+      operationId: bookAccommodation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: amount
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundErrorView'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorView'
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receipt'
+components:
+  schemas:
+    ErrorView:
+      required:
+        - error
+        - status
+        - timestamp
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        status:
+          type: integer
+          format: int32
+          default: 400
+        error:
+          type: string
+          default: "BAD_REQUEST"
+        message:
+          type: string
+          default: "Description with the error"
+        path:
+          type: string
+          default: "path that generated error"
+    NotFoundErrorView:
+      required:
+        - error
+        - status
+        - timestamp
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        status:
+          type: integer
+          format: int32
+          default: 404
+        error:
+          type: string
+          default: "NOT_FOUND"
+        message:
+          type: string
+          default: "Could not find item with id XXX"
+        path:
+          type: string
+          default: "path that generated error"
+    Item:
+      type: object
+      properties:
+        name:
+          type: string
+        rating:
+          type: integer
+        category:
+          type: string
+        location:
+          $ref: '#/components/schemas/Location'
+        imagePath:
+          type: string
+        reputation:
+          type: integer
+        reputationBadge:
+          type: string
+        price:
+          type: number
+        availability:
+          type: integer
+
+    Location:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        city:
+          type: string
+        state:
+          type: string
+        country:
+          type: string
+        zipCode:
+          type: string
+        address:
+          type: string
+
+    ItemRequestBody:
+      required:
+        - availability
+        - category
+        - imagePath
+        - location
+        - name
+        - price
+        - rating
+        - reputation
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        rating:
+          type: integer
+          format: int32
+        category:
+          type: string
+        location:
+          $ref: '#/components/schemas/Location'
+        imagePath:
+          type: string
+        reputation:
+          type: integer
+          format: int32
+        reputationBadge:
+          type: string
+        price:
+          type: number
+        availability:
+          type: integer
+          format: int32
+
+    Receipt:
+      required:
+        - amount
+        - bookingDate
+        - itemName
+        - location
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        itemName:
+          type: string
+        amount:
+          type: integer
+          format: int32
+        location:
+          $ref: '#/components/schemas/Location'
+        bookingDate:
+          type: string
+          format: date-time
+

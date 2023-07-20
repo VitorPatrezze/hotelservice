@@ -47,7 +47,7 @@ class ItemService(
         item.updateAvailability(amount)
         updateItem(item, id)
         return Receipt(
-            id, item.name, amount, item.location
+            id, "Receipt - " + item.name, amount, item.location
         )
     }
 }

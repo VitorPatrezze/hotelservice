@@ -3,23 +3,22 @@ package com.vitorpatrezze.hotelservice.controller
 import com.vitorpatrezze.hotelservice.model.Item
 import com.vitorpatrezze.hotelservice.model.Receipt
 import com.vitorpatrezze.hotelservice.service.ItemService
+import io.swagger.v3.oas.annotations.Operation
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.util.UriComponentsBuilder
-import java.math.BigDecimal
 
 @RestController
 @RequestMapping("/items")
 class ItemsController(private val service: ItemService) {
-
     @GetMapping
     fun getItems(@RequestParam(required = false) city: String?): ResponseEntity<List<Item>> {
         return ResponseEntity.ok(service.getItems(city))
     }
 
     @GetMapping("/{id}")
-    fun getItemById(@PathVariable id: Long): Item {
+    fun s(@PathVariable id: Long): Item {
         return service.getItemById(id)
     }
 

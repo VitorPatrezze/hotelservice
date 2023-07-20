@@ -3,7 +3,6 @@ package com.vitorpatrezze.hotelservice.model
 import jakarta.persistence.*
 import lombok.Data
 
-@Data
 @Entity
 @Table(name = "location")
 data class Location(
