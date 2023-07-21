@@ -4,11 +4,17 @@ Hotel Service is a API REST project developed for the Trivago interviewing proce
 ## Running the service
 
 Running the command below on the root folder of the project will create the containers for both the 
-service and the PostgreSQL Database.
-```bash
-docker-compose up --build
-```
+application and the PostgreSQL Database.
 
+```bash
+# For Mac
+run_app.sh
+
+# For Windows
+run_app.bat
+```
+I needed to use `.sh` and `.bash` to guarantee that the project would run 
+successfully even without running the `gradle build` method first (to create the `.jar` file).
 ## Usage
 Below are some cURLs used to test and debbug the application, 
 but feel free to take a look at the OpenAPI documentation at http://localhost:8080/swagger-ui/index.html
@@ -86,6 +92,7 @@ curl --location --request DELETE 'http://localhost:8080/items/1'
 
 ## Improvements to be made
 Here's a list of improvements to be made in the project:
+ - Unit and component tests, this would be the top priority
  - More filters to query items such as state, price, rating, availability and reputation.
  - Receipt table to keep booking receipts.
  - Endpoints to cancel accommodation bookings.
