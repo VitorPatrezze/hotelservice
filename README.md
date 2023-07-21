@@ -5,8 +5,10 @@ Hotel Service is a API REST project developed for the Trivago interviewing proce
 
 Running the command below on the root folder of the project will create the containers for both the 
 service and the PostgreSQL Database.
+
+Obs: make sure the "build" folder was extracted from the zip file. I was running into some issues with gradle and unfortunately `./gradlew build` is not working properly.
 ```bash
-docker-compose up --build
+docker-compose up
 ```
 
 ## Usage
